@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RESTful API</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="static/css/home.css">
+    <script
+      src="http://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous">
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="banner">Terminal Test</h1>
+        <div class="section editor">
+            <label for="command">Command
+                <input id="command" type="text" />
+            </label>
+            <br/><hr>
+            <label for="check">
+                <input id="check" type="checkbox" value="12345"/>
+            </label>
+            <label for="check_status">Check or not
+                <input id="check_status" type="text" />
+            </label>
+            <br/><hr>
+            <label for="selection">
+                <select id="selection">
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="fiat">Fiat</option>
+                    <option value="audi">Audi</option>
+                </select> 
+            </label>
+            <label for="selection_status">Selection
+                <input id="selection_status" type="text" />
+            </label>
+            <br/><hr>
+            <button id="run">Run</button>
+            <button id="reset">Reset</button>
+        </div>
+        <div class="history">
+            <table>
+                <caption>History</caption>
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>Output</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="error">
+        </div>
+    </div>
+</body>
+<script src="static/js/home.js"></script>
+</html>
