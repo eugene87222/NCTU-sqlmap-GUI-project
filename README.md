@@ -8,7 +8,7 @@
 
 ## Progress
 
-### 2019.10.22
+### 2019.10.23
 - swagger.yml: RESTful API definition
 - command.py: API implementation
 - HTML + jQuery: GUI
