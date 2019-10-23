@@ -1,1 +1,1 @@
-# NCTU_sqlmap_GUI_Project
+# [專題] sqlmap GUI
