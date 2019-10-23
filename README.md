@@ -15,3 +15,7 @@
 
 ![](https://i.imgur.com/PII19jZ.jpg)  
 ▲ API will execute the command in the textbox and return the output
+
+> Problem and future plan
+> 1. How to handle interactive mode
+> 2. Look for some web apps or websites that sqlmap can penetrate successfully
