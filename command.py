@@ -1,23 +1,28 @@
 from datetime import datetime
 from flask import make_response, abort
-import subprocess, re
+import subprocess, re, time
 
-COMMAND = []
+COMMAND = {}
 
 def get_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 def read():
-    return COMMAND
+    return [COMMAND]
 
 def run(command):
-    result = subprocess.run(command['command'], shell=True, stdout=subprocess.PIPE)
-    result = result.stdout.decode('utf-8')
-    result = re.sub(r'\n', '<br/>', result)
-    COMMAND.append({
-        'command': command['command'], 
-        'output': result, 
-        'timestamp': get_timestamp(),
-    })
-    return COMMAND
-    # return make_response(f'\"{command}\" successfully ran', 201)
+    COMMAND['command'] = command['command']
+    COMMAND['output'] = ''
+    COMMAND['timestamp'] = get_timestamp()
+    proc = subprocess.Popen(command['command'], 
+                            stdin=subprocess.PIPE, 
+                            stdout=subprocess.PIPE, 
+                            shell=True, 
+                            universal_newlines=True)
+    while True:
+        line = proc.stdout.readline()
+        if line == '' and proc.poll() != None:
+            break
+        line = re.sub(r'\n', '<br/>', line)
+        line = re.sub(r'\s', '&nbsp;', line)
+        COMMAND['output'] += line

@@ -52,13 +52,3 @@ paths:
       responses:
         200:
           description: Successfully ran command
-          schema:
-            type: array
-            items:
-              properties:
-                command:
-                  type: string
-                output:
-                  type: string
-                timestamp:
-                  type: string

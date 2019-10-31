@@ -1,13 +1,10 @@
-// Create the namespace instance
 let ns = {};
 
-// Create the model instance
 ns.model = (function() {
     "use strict";
 
     let $event_pump = $("body");
 
-    // Return the API
     return {
         "read": function() {
             let ajax_options = {
@@ -46,44 +43,18 @@ ns.model = (function() {
     };
 }());
 
-// Create the view instance
 ns.view = (function() {
     "use strict";
 
     let $command = $("#command"), 
-        $check = $("#check"), 
-        $check_status = $("#check_status"), 
-        $selection = $("#selection"), 
-        $selection_status = $("#selection_status");
+        $result = $("#result");
 
-    // return the API
     return {
         reset: function() {
             $command.val("").focus();
-            if($check.is(":checked")) {
-                $check_status.val('checked');
-            }
-            else {
-                $check_status.val('not checked');
-            }
-            $selection_status.val($selection.val());
         },
-        update_editor: function(command) {
-            $command.val(command).focus();
-        },
-        build_table: function(history) {
-            let rows = ""
-
-            // clear the table
-            $(".history table > tbody").empty();
-
-            // did we get a command array?
-            if(history) {
-                for(let i = 0, l = history.length; i < l; i++) {
-                    rows += `<tr><td class="cmd">${history[i].command}</td><td class="output">${history[i].output}</td><td>${history[i].timestamp}</td></tr>`;
-                }
-                $("table > tbody").append(rows);
-            }
+        show_result: function(result) {
+            $result.html(result[0].output);
         },
         error: function(error_msg) {
             $(".error")
@@ -96,7 +67,6 @@ ns.view = (function() {
     };
 }());
 
-// Create the controller
 ns.controller = (function(m, v) {
     "use strict";
 
@@ -104,23 +74,18 @@ ns.controller = (function(m, v) {
         view = v,
         $event_pump = $("body"),
         $command = $("#command");
+    
+    setInterval(function(){ model.read(); }, 100);
 
-    // Get the data from the model after the controller is done initializing
-    setTimeout(function() {
-        model.read();
-    }, 100)
-
-    // Validate input
     function validate(command) {
         return command !== "";
     }
 
-    // Create our event handlers
     $("#run").click(function(e) {
         let command = $command.val();
         e.preventDefault();
         if (validate(command)) {
-            model.run(command)
+            model.run(command);
         } else {
             alert("Empty command");
         }
@@ -128,26 +93,13 @@ ns.controller = (function(m, v) {
 
     $("#reset").click(function() {
         view.reset();
-    })
-
-    $("table > tbody").on("dblclick", "tr", function(e) {
-        let $target = $(e.target),
-            command;
-        command = $target
-            .parent()
-            .find("td.cmd")
-            .text();
-        view.update_editor(command);
     });
 
-    // Handle the model events
     $event_pump.on("model_read_success", function(e, data) {
-        view.build_table(data);
-        view.reset();
+        view.show_result(data);
     });
 
     $event_pump.on("model_run_success", function(e, data) {
-        model.read();
     });
 
     $event_pump.on("model_error", function(e, xhr, textStatus, errorThrown) {
