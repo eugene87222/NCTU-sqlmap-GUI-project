@@ -1,0 +1,39 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+    color: #3c3d47;
+}
+
+h1 {
+    font-weight: normal;
+    font-size: 58px;
+}
+
+a.button {
+    border: 2.5px solid #3c3d47;
+    display: block;
+    width: 220px;
+    margin: 20px auto;
+    text-align: center;
+	cursor: pointer;
+	font-family: Arial;
+	font-size: 32px;
+    padding: 20px 80px;
+    /* text-transform: uppercase; */
+    transition: all 0.2s ease 0s;
+}
+
+a.button:link, a.button:visited, a.button:active {
+    color: #3c3d47;
+}
+
+a.button, a.button:link, a:visited {
+    text-decoration: none;
+}
+
+a.button:hover {
+    border: 2.5px solid #3c3d47;
+    color: white;
+    background-color: #3c3d47;
+    transition: all 0.2s ease 0s;
+}

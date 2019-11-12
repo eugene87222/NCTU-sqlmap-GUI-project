@@ -7,7 +7,15 @@ app.add_api('swagger.yml')
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('index.html')
+
+@app.route('/info')
+def info():
+    return render_template('info.html')
+
+@app.route('/attack')
+def attack():
+    return render_template('attack.html')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

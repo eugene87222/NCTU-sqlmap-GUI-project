@@ -1,26 +1,41 @@
 swagger: "2.0"
+
 info:
   description: This is the swagger file that goes with our server code
   version: "1.0.0"
   title: Terminal test with RESTful API
+
 consumes:
   - "application/json"
+
 produces:
   - "application/json"
 
 basePath: "/api"
 
+definitions:
+  Checkbox:
+    type: object
+    properties:
+      check:
+        type: boolean
+  NormalParameter:
+    type: object
+    properties:
+      check:
+        type: boolean
+      value:
+        type: string
+
 paths:
-  /command:
+  /UI/read:
     get:
-      operationId: command.read
+      operationId: UI.read
       tags:
-        - command
-      summary: Read command history
-      description: Read command history
+        - read
       responses:
         200:
-          description: Successfully read command history
+          description: none
           schema:
             type: array
             items:
@@ -31,24 +46,464 @@ paths:
                   type: string
                 timestamp:
                   type: string
-
-    post:
-      operationId: command.run
+  /UI/save:
+    get:
+      operationId: UI.save
       tags:
-        - command
-      summary: Run the given command
-      description: Run the given command
+        - read
+      responses:
+        200:
+          description: none
+  /UI/info:
+    post:
+      operationId: UI.info
+      tags:
+        - run
       parameters:
-        - name: command
+        - name: args
           in: body
-          description: Command to run
           required: True
           schema:
             type: object
             properties:
-              command:
+              type:
                 type: string
-                description: Command to run
       responses:
         200:
-          description: Successfully ran command
+          description: none
+  /UI/run:
+    post:
+      operationId: UI.run
+      tags:
+        - run
+      parameters:
+        - name: args
+          in: body
+          required: True
+          schema:
+            type: object
+            properties:
+              v:
+                type: string
+              target:
+                type: object
+                properties:
+                  d:
+                    $ref: '#/definitions/NormalParameter'
+                  u:
+                    $ref: '#/definitions/NormalParameter'
+                  l:
+                    $ref: '#/definitions/NormalParameter'
+                  x:
+                    $ref: '#/definitions/NormalParameter'
+                  m:
+                    $ref: '#/definitions/NormalParameter'
+                  r:
+                    $ref: '#/definitions/NormalParameter'
+                  g:
+                    $ref: '#/definitions/NormalParameter'
+                  c:
+                    $ref: '#/definitions/NormalParameter'
+              request:
+                type: object
+                properties:
+                  method:
+                    $ref: '#/definitions/NormalParameter'
+                  data:
+                    $ref: '#/definitions/NormalParameter'
+                  param-del:
+                    $ref: '#/definitions/NormalParameter'
+                  cookie:
+                    $ref: '#/definitions/NormalParameter'
+                  cookie-del:
+                    $ref: '#/definitions/NormalParameter'
+                  load-cookies:
+                    $ref: '#/definitions/NormalParameter'
+                  drop-set-cookie:
+                    $ref: '#/definitions/Checkbox'
+                  user-agent:
+                    $ref: '#/definitions/NormalParameter'
+                  random-agent:
+                    $ref: '#/definitions/Checkbox'
+                  host:
+                    $ref: '#/definitions/NormalParameter'
+                  referer:
+                    $ref: '#/definitions/NormalParameter'
+                  header:
+                    $ref: '#/definitions/NormalParameter'
+                  headers:
+                    $ref: '#/definitions/NormalParameter'
+                  auth-type:
+                    $ref: '#/definitions/NormalParameter'
+                  auth-cred:
+                    $ref: '#/definitions/NormalParameter'
+                  auth-file:
+                    $ref: '#/definitions/NormalParameter'
+                  ignore-code:
+                    $ref: '#/definitions/NormalParameter'
+                  ignore-proxy:
+                    $ref: '#/definitions/Checkbox'
+                  ignore-redirects:
+                    $ref: '#/definitions/Checkbox'
+                  ignore-timeouts:
+                    $ref: '#/definitions/Checkbox'
+                  proxy:
+                    $ref: '#/definitions/NormalParameter'
+                  proxy-cred:
+                    $ref: '#/definitions/NormalParameter'
+                  proxy-file:
+                    $ref: '#/definitions/NormalParameter'
+                  tor:
+                    $ref: '#/definitions/Checkbox'
+                  tor-port:
+                    $ref: '#/definitions/NormalParameter'
+                  tor-type:
+                    $ref: '#/definitions/NormalParameter'
+                  check-tor:
+                    $ref: '#/definitions/Checkbox'
+                  delay:
+                    $ref: '#/definitions/NormalParameter'
+                  timeout:
+                    $ref: '#/definitions/NormalParameter'
+                  retries:
+                    $ref: '#/definitions/NormalParameter'
+                  randomize:
+                    $ref: '#/definitions/NormalParameter'
+                  safe-url:
+                    $ref: '#/definitions/NormalParameter'
+                  safe-post:
+                    $ref: '#/definitions/NormalParameter'
+                  safe-req:
+                    $ref: '#/definitions/NormalParameter'
+                  safe-freq:
+                    $ref: '#/definitions/NormalParameter'
+                  skip-urlencode:
+                    $ref: '#/definitions/Checkbox'
+                  csrf-token:
+                    $ref: '#/definitions/NormalParameter'
+                  csrf-url:
+                    $ref: '#/definitions/NormalParameter'
+                  force-ssl:
+                    $ref: '#/definitions/Checkbox'
+                  hpp:
+                    $ref: '#/definitions/Checkbox'
+                  eval:
+                    $ref: '#/definitions/NormalParameter'
+              optimization:
+                type: object
+                properties:
+                  o:
+                    $ref: '#/definitions/Checkbox'
+                  predict-output:
+                    $ref: '#/definitions/Checkbox'
+                  keep-alive:
+                    $ref: '#/definitions/Checkbox'
+                  null-connection:
+                    $ref: '#/definitions/Checkbox'
+                  threads:
+                    $ref: '#/definitions/NormalParameter'
+              injection:
+                type: object
+                properties:
+                  p:
+                    $ref: '#/definitions/NormalParameter'
+                  skip:
+                    $ref: '#/definitions/NormalParameter'
+                  skip-static:
+                    $ref: '#/definitions/NormalParameter'
+                  param-exclude:
+                    $ref: '#/definitions/NormalParameter'
+                  dbms:
+                    $ref: '#/definitions/NormalParameter'
+                  dbms-cred:
+                    $ref: '#/definitions/NormalParameter'
+                  os:
+                    $ref: '#/definitions/NormalParameter'
+                  invalid-bignum:
+                    $ref: '#/definitions/Checkbox'
+                  invalid-logical:
+                    $ref: '#/definitions/Checkbox'
+                  invalid-string:
+                    $ref: '#/definitions/Checkbox'
+                  no-cast:
+                    $ref: '#/definitions/Checkbox'
+                  no-escape:
+                    $ref: '#/definitions/Checkbox'
+                  prefix:
+                    $ref: '#/definitions/NormalParameter'
+                  suffix:
+                    $ref: '#/definitions/NormalParameter'
+                  tamper:
+                    $ref: '#/definitions/NormalParameter'
+              detection:
+                type: object
+                properties:
+                  level:
+                    $ref: '#/definitions/NormalParameter'
+                  risk:
+                    $ref: '#/definitions/NormalParameter'
+                  string:
+                    $ref: '#/definitions/NormalParameter'
+                  not-string:
+                    $ref: '#/definitions/NormalParameter'
+                  regexp:
+                    $ref: '#/definitions/NormalParameter'
+                  code:
+                    $ref: '#/definitions/NormalParameter'
+                  text-only:
+                    $ref: '#/definitions/Checkbox'
+                  titles:
+                    $ref: '#/definitions/Checkbox'
+              techniques:
+                type: object
+                properties:
+                  technique:
+                    $ref: '#/definitions/NormalParameter'
+                  time-sec:
+                    $ref: '#/definitions/NormalParameter'
+                  union-cols:
+                    $ref: '#/definitions/NormalParameter'
+                  union-char:
+                    $ref: '#/definitions/NormalParameter'
+                  union-from:
+                    $ref: '#/definitions/NormalParameter'
+                  dns-domain:
+                    $ref: '#/definitions/NormalParameter'
+                  second-url:
+                    $ref: '#/definitions/NormalParameter'
+                  second-req:
+                    $ref: '#/definitions/NormalParameter'
+              fingerprint:
+                type: object
+                properties:
+                  fingerprint:
+                    $ref: '#/definitions/Checkbox'
+              enumeration:
+                type: object
+                properties:
+                  all:
+                    $ref: '#/definitions/Checkbox'
+                  banner:
+                    $ref: '#/definitions/Checkbox'
+                  current-user:
+                    $ref: '#/definitions/Checkbox'
+                  current-db:
+                    $ref: '#/definitions/Checkbox'
+                  hostname:
+                    $ref: '#/definitions/Checkbox'
+                  is-dba:
+                    $ref: '#/definitions/Checkbox'
+                  users:
+                    $ref: '#/definitions/Checkbox'
+                  passwords:
+                    $ref: '#/definitions/Checkbox'
+                  privileges:
+                    $ref: '#/definitions/Checkbox'
+                  roles:
+                    $ref: '#/definitions/Checkbox'
+                  dbs:
+                    $ref: '#/definitions/Checkbox'
+                  tables:
+                    $ref: '#/definitions/Checkbox'
+                  columns:
+                    $ref: '#/definitions/Checkbox'
+                  schema:
+                    $ref: '#/definitions/Checkbox'
+                  count:
+                    $ref: '#/definitions/Checkbox'
+                  dump:
+                    $ref: '#/definitions/Checkbox'
+                  dump-all:
+                    $ref: '#/definitions/Checkbox'
+                  search:
+                    $ref: '#/definitions/Checkbox'
+                  comments:
+                    $ref: '#/definitions/Checkbox'
+                  D:
+                    $ref: '#/definitions/NormalParameter'
+                  T:
+                    $ref: '#/definitions/NormalParameter'
+                  C:
+                    $ref: '#/definitions/NormalParameter'
+                  X:
+                    $ref: '#/definitions/NormalParameter'
+                  U:
+                    $ref: '#/definitions/NormalParameter'
+                  exclude-sysdbs:
+                    $ref: '#/definitions/Checkbox'
+                  pivot-column:
+                    $ref: '#/definitions/NormalParameter'
+                  where:
+                    $ref: '#/definitions/NormalParameter'
+                  start:
+                    $ref: '#/definitions/NormalParameter'
+                  stop:
+                    $ref: '#/definitions/NormalParameter'
+                  first:
+                    $ref: '#/definitions/NormalParameter'
+                  last:
+                    $ref: '#/definitions/NormalParameter'
+                  sql-query:
+                    $ref: '#/definitions/NormalParameter'
+                  sql-shell:
+                    $ref: '#/definitions/Checkbox'
+                  sql-file:
+                    $ref: '#/definitions/NormalParameter'
+              brute-force:
+                type: object
+                properties:
+                  common-tables:
+                    $ref: '#/definitions/Checkbox'
+                  common-columns:
+                    $ref: '#/definitions/Checkbox'
+              user-defined-function-injection:
+                type: object
+                properties:
+                  udf-inject:
+                    $ref: '#/definitions/Checkbox'
+                  shared-lib:
+                    $ref: '#/definitions/NormalParameter'
+              file-system-access:
+                type: object
+                properties:
+                  file-read:
+                    $ref: '#/definitions/NormalParameter'
+                  file-write:
+                    $ref: '#/definitions/NormalParameter'
+                  file-dest:
+                    $ref: '#/definitions/NormalParameter'
+              operating-system-access:
+                type: object
+                properties:
+                  os-cmd:
+                    $ref: '#/definitions/NormalParameter'
+                  os-shell:
+                    $ref: '#/definitions/Checkbox'
+                  os-pwn:
+                    $ref: '#/definitions/Checkbox'
+                  os-smbrelay:
+                    $ref: '#/definitions/Checkbox'
+                  os-bof:
+                    $ref: '#/definitions/Checkbox'
+                  priv-esc:
+                    $ref: '#/definitions/Checkbox'
+                  msf-path:
+                    $ref: '#/definitions/NormalParameter'
+                  tmp-path:
+                    $ref: '#/definitions/NormalParameter'
+              windows-registry-access:
+                type: object
+                properties:
+                  reg-read:
+                    $ref: '#/definitions/Checkbox'
+                  reg-add:
+                    $ref: '#/definitions/Checkbox'
+                  reg-del:
+                    $ref: '#/definitions/Checkbox'
+                  reg-key:
+                    $ref: '#/definitions/NormalParameter'
+                  reg-value:
+                    $ref: '#/definitions/NormalParameter'
+                  reg-data:
+                    $ref: '#/definitions/NormalParameter'
+                  reg-type:
+                    $ref: '#/definitions/NormalParameter'
+              general:
+                type: object
+                properties:
+                  s:
+                    $ref: '#/definitions/NormalParameter'
+                  t:
+                    $ref: '#/definitions/NormalParameter'
+                  batch:
+                    $ref: '#/definitions/Checkbox'
+                  binary-fields:
+                    $ref: '#/definitions/NormalParameter'
+                  check-internet:
+                    $ref: '#/definitions/Checkbox'
+                  crawl:
+                    $ref: '#/definitions/NormalParameter'
+                  crawl-exclude:
+                    $ref: '#/definitions/NormalParameter'
+                  csv-del:
+                    $ref: '#/definitions/NormalParameter'
+                  charset:
+                    $ref: '#/definitions/NormalParameter'
+                  dump-format:
+                    $ref: '#/definitions/NormalParameter'
+                  encoding:
+                    $ref: '#/definitions/NormalParameter'
+                  eta:
+                    $ref: '#/definitions/Checkbox'
+                  flush-session:
+                    $ref: '#/definitions/Checkbox'
+                  forms:
+                    $ref: '#/definitions/Checkbox'
+                  fresh-queries:
+                    $ref: '#/definitions/Checkbox'
+                  har:
+                    $ref: '#/definitions/NormalParameter'
+                  hex:
+                    $ref: '#/definitions/Checkbox'
+                  output-dir:
+                    $ref: '#/definitions/NormalParameter'
+                  parse-errors:
+                    $ref: '#/definitions/Checkbox'
+                  preprocess:
+                    $ref: '#/definitions/NormalParameter'
+                  repair:
+                    $ref: '#/definitions/Checkbox'
+                  save:
+                    $ref: '#/definitions/NormalParameter'
+                  scope:
+                    $ref: '#/definitions/NormalParameter'
+                  test-filter:
+                    $ref: '#/definitions/NormalParameter'
+                  test-skip:
+                    $ref: '#/definitions/NormalParameter'
+                  update:
+                    $ref: '#/definitions/Checkbox'
+              miscellaneous:
+                type: object
+                properties:
+                  z:
+                    $ref: '#/definitions/NormalParameter'
+                  alert:
+                    $ref: '#/definitions/NormalParameter'
+                  answers:
+                    $ref: '#/definitions/NormalParameter'
+                  beep:
+                    $ref: '#/definitions/Checkbox'
+                  cleanup:
+                    $ref: '#/definitions/Checkbox'
+                  dependencies:
+                    $ref: '#/definitions/Checkbox'
+                  disable-coloring:
+                    $ref: '#/definitions/Checkbox'
+                  gpage:
+                    $ref: '#/definitions/NormalParameter'
+                  identify-waf:
+                    $ref: '#/definitions/Checkbox'
+                  list-tampers:
+                    $ref: '#/definitions/Checkbox'
+                  mobile:
+                    $ref: '#/definitions/Checkbox'
+                  offline:
+                    $ref: '#/definitions/Checkbox'
+                  purge:
+                    $ref: '#/definitions/Checkbox'
+                  skip-waf:
+                    $ref: '#/definitions/Checkbox'
+                  smart:
+                    $ref: '#/definitions/Checkbox'
+                  sqlmap-shell:
+                    $ref: '#/definitions/Checkbox'
+                  tmp-dir:
+                    $ref: '#/definitions/NormalParameter'
+                  web-root:
+                    $ref: '#/definitions/NormalParameter'
+                  wizard:
+                    $ref: '#/definitions/Checkbox'
+      responses:
+        200:
+          description: none

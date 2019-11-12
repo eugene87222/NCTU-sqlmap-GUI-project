@@ -1,0 +1,84 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    color: #3E3E3E;
+}
+
+.main-content {
+    margin: 0 20% 200px;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: 50px;
+    margin: 60px 0 0;
+    color: #3c3d47;
+}
+
+h2 {
+    font-weight: normal;
+    font-size: 28px;
+    margin: 0 0 13px;
+}
+
+hr {
+    border: 1.5px solid #3c3d473b;
+    margin-bottom: 60px;
+}
+
+section {
+    margin: 0 0 48px;
+}
+
+.option-text{
+    display: inline-block;
+}
+
+.button {
+    margin-top: 50px;
+    border: 2.5px solid #3c3d47;
+	display: inline-block;
+	cursor: pointer;
+	font-family: Arial;
+	font-size: 42px;
+    padding: 20px 80px;
+    text-transform: uppercase;
+    transition: all 0.3s ease 0s;
+}
+
+.button:hover {
+    transition: all 0.3s ease 0s;
+    background-color:#f66767;
+    border: 2.5px solid #f66767;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* .button:hover {
+    transition: all 0.3s ease 0s;
+    color:#f66767;
+    border: 2.5px solid #f66767;
+    transform: scale(1.2);
+} */
+
+.button:active {
+	position:relative;
+	top:1px;
+}
+
+a > i.back {
+    font-size: 100px;
+    color: #f66767;
+    position: absolute;
+    left: 50px;
+    top: 60px;
+    transition: 0.3s;
+    transform: translate(-3px, -18px);
+    padding: 0 32px;
+}
+
+a > i.back:hover {
+    transition: 0.3s;
+    color: #f6676780;
+    transform: translate(-7px, -18px);
+}
+
