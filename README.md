@@ -1,4 +1,4 @@
-# 專題題目: sqlmap GUI written in python with Flask
+# sqlmap GUI written in python with Flask
 
 ## 開發環境
 - [Ubuntu 18.04 LTS](https://ubuntu.com/download/desktop)
