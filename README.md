@@ -12,6 +12,7 @@
 - swagger.yml: 定義 RESTful API 格式
 - command.py: 實作 API 細節
 - HTML + jQuery: GUI 前端
+
 ![](https://i.imgur.com/Og4ly1i.jpg)
 - API will execute the command in the textbox and return the output
 > Problem
