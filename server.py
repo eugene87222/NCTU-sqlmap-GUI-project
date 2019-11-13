@@ -1,5 +1,5 @@
-import sys, argparse, threading, webbrowser
-from flask import Flask, render_template
+import sys, argparse, threading, webbrowser, os
+from flask import Flask, render_template, send_from_directory
 import connexion
 
 app = connexion.App(__name__, specification_dir='./')
@@ -17,6 +17,10 @@ def info():
 def attack():
     return render_template('attack.html')
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
+                               
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-b', action='store_false', default=True, help='set to open browser while API is running')
