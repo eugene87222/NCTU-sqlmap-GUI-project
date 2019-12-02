@@ -5,24 +5,41 @@
   <title>sqlmap GUI</title>
   <meta charset="UTF-8" />
   <link rel="stylesheet" type="text/css" href="static/css/attack.css" />
-  <!-- <link rel="stylesheet" type="text/css" href="attack.css" />   -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script
-    src="http://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous">
-  </script>
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
+
   <body>
     <a href="/"><i class="fa fa-angle-left back"></i></a>
 
     <div class="main-content">
-      <h1>Attack setting!!</h1>
+      <h1>Attack setting!</h1>
       <hr />
 
-      <section>
+      <div class="tab">
+        <button class="tablinks active" onclick="opentab(event, 'Verbosity')">Verbosity</button>
+        <button class="tablinks" onclick="opentab(event, 'Target')">Target</button>
+        <button class="tablinks" onclick="opentab(event, 'Request')">Request</button>
+        <button class="tablinks" onclick="opentab(event, 'Optimization')">Optimization</button>
+        <button class="tablinks" onclick="opentab(event, 'Injection')">Injection</button>
+        <button class="tablinks" onclick="opentab(event, 'Detection')">Detection</button>
+        <button class="tablinks" onclick="opentab(event, 'Techniques')">Techniques</button>
+        <button class="tablinks" onclick="opentab(event, 'Fingerprint')">Fingerprint</button>
+        <button class="tablinks" onclick="opentab(event, 'Enumeration')">Enumeration</button>
+        <button class="tablinks" onclick="opentab(event, 'Brute-Force')">Brute Force</button>
+        <button class="tablinks" onclick="opentab(event, 'User-Defined-Function-Injection')">User-Defined Function
+          Injection</button>
+        <button class="tablinks" onclick="opentab(event, 'File-System-Access')">File System Access</button>
+        <button class="tablinks" onclick="opentab(event, 'Operating-System-Access')">Operating System Access</button>
+        <button class="tablinks" onclick="opentab(event, 'Windows-Registry-Access')">Windows Registry Access</button>
+        <button class="tablinks" onclick="opentab(event, 'General')">General</button>
+        <button class="tablinks" onclick="opentab(event, 'Miscellaneous')">Miscellaneous</button>
+      </div>
+
+      <section class="tabcontent Verbosity">
         <h2>Choose your verbosity</h2>
-        <select id="verbosity">
+        <select id="verbosity" onchange="generateCmd()">
           <option value="0">0</option>
           <option value="1" selected>1</option>
           <option value="2">2</option>
@@ -33,1539 +50,166 @@
         </select>
       </section>
 
-      <section>
-        <h2>Choose your targets (at least one)</h2>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="d-cb" />
-          <div class="option-text">
-            Connection string for direct database connection
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="d" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="u-cb" />
-          <div class="option-text">
-            Target URL (e.g. "http://www.site.com/vuln.php?id=1")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="u" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="l-cb" />
-          <div class="option-text">
-            Parse target(s) from Burp or WebScarab proxy log file
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="l" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="x-cb" />
-          <div class="option-text">
-            Parse target(s) from remote sitemap(.xml) file
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="x" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="m-cb" />
-          <div class="option-text">
-            Scan multiple targets given in a textual file
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="m" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="r-cb" />
-          <div class="option-text">
-            Load HTTP request from a file
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="r" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="g-cb" />
-          <div class="option-text">
-            Process Google dork results as target URLs
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="g" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="c-cb" />
-          <div class="option-text">
-            Load options from a configuration INI file
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="c" />
-          </div>
-        </div>
-      </section>
+      <div class="target-in"></div>
 
-      <section>
-        <h2>Request</h2>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="method-cb" />
-          <div class="option-text">
-            Force usage of given HTTP method (e.g. PUT)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="method" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="data-cb" />
-          <div class="option-text">
-            Data string to be sent through POST (e.g. "id=1")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="data" />
+      <script type="module" src="static/js/insert_options.js"></script>
+    </div>
+    
+    <div class="right-content">
+      <div class="wrapper">
+        <div class="search">
+          <p>Search related description</p>
+          <div>
+            <input type="text" onkeyup="search(this)"/>
+            <div id="search_result"></div>
           </div>
         </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="param-del-cb" />
-          <div class="option-text">
-            Character used for splitting parameter values (e.g. &)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="param-del" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="cookie-cb" />
-          <div class="option-text">
-            HTTP Cookie header value (e.g. "PHPSESSID=a8d127e..")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="cookie" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="cookie-del-cb" />
-          <div class="option-text">
-            Character used for splitting cookie values (e.g. ;)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="cookie-del" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="load-cookies-cb" />
-          <div class="option-text">
-            File containing cookies in Netscape/wget format
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="load-cookies" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="drop-set-cookie-cb" />
-          <div class="option-text">
-            Ignore Set-Cookie header from response
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="user-agent-cb" />
-          <div class="option-text">
-            HTTP User-Agent header value
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="user-agent" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="random-agent-cb" />
-          <div class="option-text">
-            Use randomly selected HTTP User-Agent header value
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="host-cb" />
-          <div class="option-text">
-            HTTP Host header value
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="host" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="referer-cb" />
-          <div class="option-text">
-            HTTP Referer header value
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="referer" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="header-cb" />
-          <div class="option-text">
-            Extra header (e.g. "X-Forwarded-For: 127.0.0.1")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="header" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="headers-cb" />
-          <div class="option-text">
-            Extra headers (e.g. "Accept-Language: fr\nETag: 123")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="headers" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="auth-type-cb" />
-          <div class="option-text">
-            HTTP authentication type (Basic, Digest, NTLM or PKI)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="auth-type" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="auth-cred-cb" />
-          <div class="option-text">
-            HTTP authentication credentials (name:password)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="auth-cred" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="auth-file-cb" />
-          <div class="option-text">
-            HTTP authentication PEM cert/private key file
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="auth-file" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="ignore-code-cb" />
-          <div class="option-text">
-            Ignore (problematic) HTTP error code (e.g. 401)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="ignore-code" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="ignore-proxy-cb" />
-          <div class="option-text">
-            Ignore system default proxy settings
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="ignore-redirects-cb" />
-          <div class="option-text">
-            Ignore redirection attempts
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="ignore-timeouts-cb" />
-          <div class="option-text">
-            Ignore connection timeouts
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="proxy-cb" />
-          <div class="option-text">
-            Use a proxy to connect to the target URL
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="proxy" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="proxy-cred-cb" />
-          <div class="option-text">
-            Proxy authentication credentials (name:password)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="proxy-cred" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="proxy-file-cb" />
-          <div class="option-text">
-            Load proxy list from a file
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="proxy-file" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="tor-cb" />
-          <div class="option-text">
-            Use Tor anonymity network
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="tor-port-cb" />
-          <div class="option-text">
-            Set Tor proxy port other than default
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="tor-port" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="tor-type-cb" />
-          <div class="option-text">
-            Set Tor proxy type (HTTP, SOCKS4 or SOCKS5 (default))
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="tor-type" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="check-tor-cb" />
-          <div class="option-text">
-            Check to see if Tor is used properly
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="delay-cb" />
-          <div class="option-text">
-            Delay in seconds between each HTTP request
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="delay" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="timeout-cb" />
-          <div class="option-text">
-            Seconds to wait before timeout connection (default 30)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="timeout" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="retries-cb" />
-          <div class="option-text">
-            Retries when the connection timeouts (default 3)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="retries" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="randomize-cb" />
-          <div class="option-text">
-            Randomly change value for given parameter(s)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="randomize" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="safe-url-cb" />
-          <div class="option-text">
-            URL address to visit frequently during testing
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="safe-url" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="safe-post-cb" />
-          <div class="option-text">
-            POST data to send to a safe URL
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="safe-post" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="safe-req-cb" />
-          <div class="option-text">
-            Load safe HTTP request from a file
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="safe-req" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="safe-freq-cb" />
-          <div class="option-text">
-            Test requests between two visits to a given safe URL
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="safe-freq" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="skip-urlencode-cb" />
-          <div class="option-text">
-            Skip URL encoding of payload data
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="csrf-token-cb" />
-          <div class="option-text">
-            Parameter used to hold anti-CSRF token
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="csrf-token" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="csrf-url-cb" />
-          <div class="option-text">
-            URL address to visit for extraction of anti-CSRF token
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="csrf-url" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="force-ssl-cb" />
-          <div class="option-text">
-            Force usage of SSL/HTTPS
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="hpp-cb" />
-          <div class="option-text">
-            Use HTTP parameter pollution method
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="eval-cb" />
-          <div class="option-text">
-            Evaluate provided Python code before the request (e.g. "import
-            hashlib;id2=hashlib.md5(id).hexdigest()")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="eval" />
-          </div>
-        </div>
-      </section>
 
-      <section>
-        <h2>Optimization</h2>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="o-cb" />
-          <div class="option-text">
-            Turn on all optimization switches
-          </div>
+        <div class="final-command">
+          <p>Corresponding parameters</p>
+          <div id="final_cmd">final string</div>
         </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="predict-output-cb" />
-          <div class="option-text">
-            Predict common queries output
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="keep-alive-cb" />
-          <div class="option-text">
-            Use persistent HTTP(s) connections
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="null-connection-cb" />
-          <div class="option-text">
-            Retrieve page length without actual HTTP response body
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="threads-cb" />
-          <div class="option-text">
-            Max number of concurrent HTTP(s) requests (default 1)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="threads" />
-          </div>
-        </div>
-      </section>
+  
+        <div class="button" id="attack" onclick="collectData()">Attack</div>
+        <div class="button" id="save">Save</div>
 
-      <section>
-        <h2>Injection</h2>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="p-cb" />
-          <div class="option-text">
-            Testable parameter(s)
+        <div class="final-output">
+          <p>Output</p>
+          <div id="final_output">
+             The final output will be shown here.
           </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="p" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="skip-cb" />
-          <div class="option-text">
-            Skip testing for given parameter(s)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="skip" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="skip-static-cb" />
-          <div class="option-text">
-            Skip testing parameters that not appear to be dynamic
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="param-exclude-cb" />
-          <div class="option-text">
-            Regexp to exclude parameters from testing (e.g. "ses")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="param-exclude" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="dbms-cb" />
-          <div class="option-text">
-            Force back-end DBMS to provided value
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="dbms" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="dbms-cred-cb" />
-          <div class="option-text">
-            DBMS authentication credentials (user:password)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="dbms-cred" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="os-cb" />
-          <div class="option-text">
-            Force back-end DBMS operating system to provided value
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="os" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="invalid-bignum-cb" />
-          <div class="option-text">
-            Use big numbers for invalidating values
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="invalid-logical-cb" />
-          <div class="option-text">
-            Use logical operations for invalidating values
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="invalid-string-cb" />
-          <div class="option-text">
-            Use random strings for invalidating values
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="no-cast-cb" />
-          <div class="option-text">
-            Turn off payload casting mechanism
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="no-escape-cb" />
-          <div class="option-text">
-            Turn off string escaping mechanism
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="prefix-cb" />
-          <div class="option-text">
-            Injection payload prefix string
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="prefix" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="suffix-cb" />
-          <div class="option-text">
-            Injection payload suffix string
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="suffix" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="tamper-cb" />
-          <div class="option-text">
-            Use given script(s) for tampering injection data
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="tamper" />
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Detection</h2>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="level-cb" />
-          <div class="option-text">
-            Level of tests to perform (1-5, default 1)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="level" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="risk-cb" />
-          <div class="option-text">
-            Risk of tests to perform (1-3, default 1)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="risk" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="string-cb" />
-          <div class="option-text">
-            String to match when query is evaluated to True
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="string" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="not-string-cb" />
-          <div class="option-text">
-            String to match when query is evaluated to False
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="not-string" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="regexp-cb" />
-          <div class="option-text">
-            Regexp to match when query is evaluated to True
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="regexp" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="code-cb" />
-          <div class="option-text">
-            HTTP code to match when query is evaluated to True
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="code" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="text-only-cb" />
-          <div class="option-text">
-            Compare pages based only on the textual content
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="titles-cb" />
-          <div class="option-text">
-            Compare pages based only on their titles
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Techniques</h2>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="technique-cb" />
-          <div class="option-text">
-            SQL injection techniques to use (default "BEUSTQ")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="technique" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="time-sec-cb" />
-          <div class="option-text">
-            Seconds to delay the DBMS response (default 5)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="time-sec" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="union-cols-cb" />
-          <div class="option-text">
-            Range of columns to test for UNION query SQL injection
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="union-cols" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="union-char-cb" />
-          <div class="option-text">
-            Character to use for bruteforcing number of columns
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="union-char" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="union-from-cb" />
-          <div class="option-text">
-            Table to use in FROM part of UNION query SQL injection
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="union-from" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="dns-domain-cb" />
-          <div class="option-text">
-            Domain name used for DNS exfiltration attack
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="dns-domain" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="second-url-cb" />
-          <div class="option-text">
-            Resulting page URL searched for second-order response
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="second-url" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="second-req-cb" />
-          <div class="option-text">
-            Load second-order HTTP request from file
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="file" id="second-req" />
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Fingerprint</h2>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="fingerprint-cb" />
-          <div class="option-text">
-            Perform an extensive DBMS version fingerprint
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Enumeration</h2>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="all-cb" />
-          <div class="option-text">
-            Retrieve everything
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="banner-cb" />
-          <div class="option-text">
-            Retrieve DBMS banner
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="current-user-cb" />
-          <div class="option-text">
-            Retrieve DBMS current user
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="current-db-cb" />
-          <div class="option-text">
-            Retrieve DBMS current database
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="hostname-cb" />
-          <div class="option-text">
-            Retrieve DBMS server hostname
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="is-dba-cb" />
-          <div class="option-text">
-            Detect if the DBMS current user is DBA
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="users-cb" />
-          <div class="option-text">
-            Enumerate DBMS users
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="passwords-cb" />
-          <div class="option-text">
-            Enumerate DBMS users password hashes
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="privileges-cb" />
-          <div class="option-text">
-            Enumerate DBMS users privileges
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="roles-cb" />
-          <div class="option-text">
-            Enumerate DBMS users roles
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="dbs-cb" />
-          <div class="option-text">
-            Enumerate DBMS databases
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="tables-cb" />
-          <div class="option-text">
-            Enumerate DBMS database tables
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="columns-cb" />
-          <div class="option-text">
-            Enumerate DBMS database table columns
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="schema-cb" />
-          <div class="option-text">
-            Enumerate DBMS schema
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="count-cb" />
-          <div class="option-text">
-            Retrieve number of entries for table(s)
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="dump-cb" />
-          <div class="option-text">
-            Dump DBMS database table entries
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="dump-all-cb" />
-          <div class="option-text">
-            Dump all DBMS databases tables entries
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="search-cb" />
-          <div class="option-text">
-            Search column(s), table(s) and/or database name(s)
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="comments-cb" />
-          <div class="option-text">
-            Check for DBMS comments during enumeration
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="D-cb" />
-          <div class="option-text">
-            DBMS database to enumerate
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="D" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="T-cb" />
-          <div class="option-text">
-            DBMS database table(s) to enumerate
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="T" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="C-cb" />
-          <div class="option-text">
-            DBMS database table column(s) to enumerate
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="C" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="X-cb" />
-          <div class="option-text">
-            DBMS database identifier(s) to not enumerate
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="X" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="U-cb" />
-          <div class="option-text">
-            DBMS user to enumerate
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="U" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="exclude-sysdbs-cb" />
-          <div class="option-text">
-            Exclude DBMS system databases when enumerating tables
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="pivot-column-cb" />
-          <div class="option-text">
-            Pivot column name
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="pivot-column" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="where-cb" />
-          <div class="option-text">
-            Use WHERE condition while table dumping
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="where" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="start-cb" />
-          <div class="option-text">
-            First dump table entry to retrieve
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="start" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="stop-cb" />
-          <div class="option-text">
-            Last dump table entry to retrieve
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="stop" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="first-cb" />
-          <div class="option-text">
-            First query output word character to retrieve
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="first" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="last-cb" />
-          <div class="option-text">
-            Last query output word character to retrieve
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="last" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="sql-query-cb" />
-          <div class="option-text">
-            SQL statement to be executed
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="sql-query" />
-          </div>
-        </div>    
-        <div class="option"> <!-- 這個應該不用放上來 -->
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="sql-shell-cb" />
-          <div class="option-text">
-            Prompt for an interactive SQL shell
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="sql-file-cb" />
-          <div class="option-text">
-            Execute SQL statements from given file(s)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="sql-file" />
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Brute force</h2>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="common-tables-cb" />
-          <div class="option-text">
-            Check existence of common tables
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="common-columns-cb" />
-          <div class="option-text">
-            Check existence of common columns
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>User-defined function injection</h2>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="udf-inject-cb" />
-          <div class="option-text">
-            Inject custom user-defined functions
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="shared-lib-cb" />
-          <div class="option-text">
-            Local path of the shared library
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="shared-lib" />
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>File system access</h2>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="file-read-cb" />
-          <div class="option-text">
-            Read a file from the back-end DBMS file system
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="file-read" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="file-write-cb" />
-          <div class="option-text">
-            Write a local file on the back-end DBMS file system
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="file-write" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="file-dest-cb" />
-          <div class="option-text">
-            Back-end DBMS absolute filepath to write to
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="file-dest" />
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Operating system access</h2>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="os-cmd-cb" />
-          <div class="option-text">
-            Execute an operating system command
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="os-cmd" />
-            </div>
-        </div>
-        <div class="option"> <!-- 這個應該不用放上來 -->
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="os-shell-cb" />
-          <div class="option-text">
-            Prompt for an interactive operating system shell
-          </div>
-        </div>
-        <div class="option"> <!-- 這個應該不用放上來 -->
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="os-pwn-cb" />
-          <div class="option-text">
-            Prompt for an OOB shell, Meterpreter or VNC
-          </div>
-        </div>
-        <div class="option"> <!-- 這個應該不用放上來 -->
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="os-smbrelay-cb" />
-          <div class="option-text">
-            One click prompt for an OOB shell, Meterpreter or VNC
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="os-bof-cb" />
-          <div class="option-text">
-            Stored procedure buffer overflow exploitation
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="priv-esc-cb" />
-          <div class="option-text">
-            Database process user privilege escalation
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="msf-path-cb" />
-          <div class="option-text">
-            Local path where Metasploit Framework is installed
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="msf-path" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="tmp-path-cb" />
-          <div class="option-text">
-            Remote absolute path of temporary files directory
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="tmp-path" />
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Windows registry access</h2>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="reg-read-cb" />
-          <div class="option-text">
-            Read a Windows registry key value
-          </div>
-        </div>
-        <div class=" option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="reg-add-cb" />
-          <div class="option-text">
-            Write a Windows registry key value data
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="reg-del-cb" />
-          <div class="option-text">
-            Delete a Windows registry key value
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="reg-key-cb" />
-          <div class="option-text">
-            Windows registry key
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="reg-key" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="reg-value-cb" />
-          <div class="option-text">
-            Windows registry key value
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="reg-value" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="reg-data-cb" />
-          <div class="option-text">
-            Windows registry key value data
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="reg-data" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="reg-type-cb" />
-          <div class="option-text">
-            Windows registry key value type
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="reg-type" />
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>General</h2>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="s-cb" />
-          <div class="option-text">
-            Load session from a stored (.sqlite) file
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="s" />
-          </div>
-        </div>
-        <div class=" option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="t-cb" />
-          <div class="option-text">
-            Log all HTTP traffic into a textual file
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="t" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="batch-cb" />
-          <div class="option-text">
-            Never ask for user input, use the default behavior
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="binary-fields-cb" />
-          <div class="option-text">
-            Result fields having binary values (e.g. "digest")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="binary-fields" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="check-internet-cb" />
-          <div class="option-text">
-            Check Internet connection before assessing the target
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="crawl-cb" />
-          <div class="option-text">
-            Crawl the website starting from the target URL
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="crawl" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="crawl-exclude-cb" />
-          <div class="option-text">
-            Regexp to exclude pages from crawling (e.g. "logout")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="crawl-exclude" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="csv-del-cb" />
-          <div class="option-text">
-            Delimiting character used in CSV output (default ",")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="csv-del" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="charset-cb" />
-          <div class="option-text">
-            Blind SQL injection charset (e.g. "0123456789abcdef")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="charset" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="dump-format-cb" />
-          <div class="option-text">
-            Format of dumped data (CSV (default), HTML or SQLITE)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="dump-format" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="encoding-cb" />
-          <div class="option-text">
-            Character encoding used for data retrieval (e.g. GBK)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="encoding" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="eta-cb" />
-          <div class="option-text">
-            Display for each output the estimated time of arrival
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="flush-session-cb" />
-          <div class="option-text">
-            Flush session files for current target
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="forms-cb" />
-          <div class="option-text">
-            Parse and test forms on target URL
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="fresh-queries-cb" />
-          <div class="option-text">
-            Ignore query results stored in session file
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="har-cb" />
-          <div class="option-text">
-            Log all HTTP traffic into a HAR file
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="har" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="hex-cb" />
-          <div class="option-text">
-            Use hex conversion during data retrieval
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="output-dir-cb" />
-          <div class="option-text">
-            Custom output directory path
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="output-dir" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="parse-errors-cb" />
-          <div class="option-text">
-            Parse and display DBMS error messages from responses
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="preprocess-cb" />
-          <div class="option-text">
-            Use given script(s) for preprocessing of response data
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="preprocess" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="repair-cb" />
-          <div class="option-text">
-            Redump entries having unknown character marker (?)
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="save-cb" />
-          <div class="option-text">
-            Save options to a configuration INI file
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="save" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="scope-cb" />
-          <div class="option-text">
-            Regexp to filter targets from provided proxy log
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="scope" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="test-filter-cb" />
-          <div class="option-text">
-            Select tests by payloads and/or titles (e.g. ROW)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="test-filter" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="test-skip-cb" />
-          <div class="option-text">
-            Skip tests by payloads and/or titles (e.g. BENCHMARK)
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="test-skip" />
-          </div>
-        </div>
-        <div class="option"> <!-- 這個應該可以放到 info.html -->
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="update-cb" />
-          <div class="option-text">
-            Update sqlmap
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Miscellaneous</h2>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="z-cb" />
-          <div class="option-text">
-            Use short mnemonics (e.g. "flu,bat,ban,tec=EU")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="z" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="alert-cb" />
-          <div class="option-text">
-            Run host OS command(s) when SQL injection is found
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="alert" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="answers-cb" />
-          <div class="option-text">
-            Set predefined answers (e.g. "quit=N,follow=N")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="answers" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="beep-cb" />
-          <div class="option-text">
-            Beep on question and/or when SQL injection is found
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="cleanup-cb" />
-          <div class="option-text">
-            Clean up the DBMS from sqlmap specific UDF and tables
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="dependencies-cb" />
-          <div class="option-text">
-            Check for missing (optional) sqlmap dependencies
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="disable-coloring-cb" />
-          <div class="option-text">
-            Disable console output coloring
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="gpage-cb" />
-          <div class="option-text">
-            Use Google dork results from specified page number
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="gpage" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="identify-waf-cb" />
-          <div class="option-text">
-            Make a thorough testing for a WAF/IPS protection
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="list-tampers-cb" />
-          <div class="option-text">
-            Display list of available tamper scripts
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="mobile-cb" />
-          <div class="option-text">
-            Imitate smartphone through HTTP User-Agent header
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="offline-cb" />
-          <div class="option-text">
-            Work in offline mode (only use session data)
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="purge-cb" />
-          <div class="option-text">
-            Safely remove all content from sqlmap data directory
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="skip-waf-cb" />
-          <div class="option-text">
-            Skip heuristic detection of WAF/IPS protection
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="smart-cb" />
-          <div class="option-text">
-            Conduct thorough tests only if positive heuristic(s)
-          </div>
-        </div>
-        <div class="option"> <!-- 這個應該不用放上來 -->
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="sqlmap-shell-cb" />
-          <div class="option-text">
-            Prompt for an interactive sqlmap shell
-          </div>      
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="tmp-dir-cb" />
-          <div class="option-text">
-            Local directory for storing temporary files
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="tmp-dir" />
-          </div>
-        </div>
-        <div class="option">
-          <input class="checkbox show-input" type="checkbox" onclick="showInput()" id="web-root-cb" />
-          <div class="option-text">
-            Web server document root directory (e.g. "/var/www")
-          </div>
-          <div class="input-text" style="display:none">
-            <input type="text" id="web-root" />
-          </div>
-        </div>
-        <div class="option"> <!-- 這個應該不用放上來 -->
-          <input class="checkbox" type="checkbox" onclick="showInput()" id="wizard-cb" />
-          <div class="option-text">
-            Simple wizard interface for beginner users
-          </div>
         </div>
-      </section>
-
-      <div class="button" id="attack" onclick="collectData()">Attack!</div>
-      <div id="msg">message</div>
+      </div>
     </div>
 
     <script>
-      function showInput() {
-        var checkBox = document.getElementsByClassName("show-input");
-        var text = document.getElementsByClassName("input-text");
-        var size = checkBox.length;
-
-        for (i = 0; i < size; i++) {
-          if (checkBox[i].checked == true) {
-            text[i].style.display = "block";
-          } else {
-            text[i].style.display = "none";
+      function search(e) {
+        var keyword = e.value.trim();
+        if(keyword.length > 0) {
+          var tab = document.getElementsByClassName("tablinks");
+          var sections = document.getElementsByClassName("tabcontent");
+          var section_length = sections.length;
+          var options, cnt, search_result = "";
+          
+          for(i = 0; i < section_length; i++) {
+            cnt = 0;
+            options = sections[i].getElementsByClassName("option-text")
+            for(j = 0; j < options.length; j++) {
+              if(options[j].textContent.includes(keyword)) {
+                cnt += 1;
+              }
+            }
+            if(cnt > 0) {
+              search_result += tab[i].textContent + " " + cnt.toString() + "<br/>";
+            }
           }
+          document.getElementById("search_result").innerHTML = search_result;
+        }
+        else {
+          document.getElementById("search_result").textContent = "";
+        }
+      }
+
+      function generateCmd() {
+
+        var request_tab = document.getElementsByClassName("tablinks")[2];
+        var sections = document.getElementsByClassName("tabcontent");
+        var section_length = sections.length;
+
+        var checkboxes, size;
+
+        var input_text, option, text;
+
+        var cmd = "";
+        cmd += " -v " + document.getElementById("verbosity").value;
+
+        for(i = 1; i < section_length; i++) {
+          checkboxes = sections[i].getElementsByClassName("checkbox");
+          size = checkboxes.length;
+
+          if(i == 2 && request_tab.disabled) {
+            continue;
+          }
+
+          for(j = 0; j < size; j++) {
+            if(checkboxes[j].checked == true) {
+              input_text = checkboxes[j].nextElementSibling.nextElementSibling;
+              option = checkboxes[j].id.slice(0, -3);
+              if(option.length == 1) {
+                cmd += " -" + option;
+              }
+              else {
+                cmd += " --" + option;
+              }
+              if(input_text != null) {
+                text = input_text.children[0].value;
+                if(option.length == 1) {
+                  cmd += " \"" + text + "\"";
+                }
+                else {
+                  cmd += "=\"" + text + "\"";
+                }
+              }
+            }
+          }
+        }
+
+        document.getElementById("final_cmd").textContent = cmd;
+      }
+
+      function showInput(e) {
+        var input_text = e.nextElementSibling.nextElementSibling;
+
+        if(e.checked == true) {
+          input_text.style.display = "block";
+          input_text.children[0].focus();
+        }
+        else {
+          input_text.style.display = "none";
+          input_text.children[1].style.display = "none";
+        }
+      }
+
+      function checkRequired(e) {
+        if(e.value == "") {
+          e.nextElementSibling.style.display = "inline-block";
+        }
+        else {
+          e.nextElementSibling.style.display = "none";
         }
       }
 
       function collectData() {
-        alert("send data to backend");
+        alert("Send data to backend");
       }
+
+      function opentab(evt, TabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for(i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for(i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementsByClassName(TabName)[0].style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+
+      function checkTab() {
+        if(document.getElementById("u-cb").checked) {
+            document.getElementsByClassName("tablinks")[2].disabled = false;
+        }
+        else {
+            document.getElementsByClassName("tablinks")[2].disabled = true;
+        }
+      }
+
+      generateCmd();
+
     </script>
   </body>
   <script src="static/js/home.js"></script>
+
 </html>

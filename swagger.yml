@@ -71,6 +71,8 @@ paths:
       responses:
         200:
           description: none
+          schema:
+            type: string
   /UI/run:
     post:
       operationId: UI.run

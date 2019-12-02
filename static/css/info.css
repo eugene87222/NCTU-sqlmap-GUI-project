@@ -1,41 +1,82 @@
+@import url('https://fonts.googleapis.com/css?family=Luckiest+Guy&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Karla&display=swap');
+
 body {
-	font-family: sans-serif;
+	font-family: 'Karla', sans-serif;
+	background-color: #3c3d47;
+	color: #dcdcdc;
 }
 
 h1 {
+    font-family: 'Luckiest Guy', sans-serif;
+    font-size: 60px;
+    margin: 60px 0 0;
+    color: #f66767;
+	letter-spacing: 5px;
 	text-align: center;
+}
+.box {
+	width: auto;
+	padding-top: 50px;
+}
+
+.button_box, .output {
+  	width: 600px;
+  	height: 500px;
+  	float: left;
 }
 
 .button {
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
-	background-color:#ffffff;
-	border-radius:5px;
-	border:1px solid #dcdcdc;
-	display:inline-block;
-	cursor:pointer;
-	color:#666666;
-	font-family:Arial;
-	font-size:18px;
-	font-weight:bold;
-	padding:20px 60px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #ffffff;
+	border: 2.5px solid #dcdcdc;
+	color: #dcdcdc;
+    display: block;
+	width: 300px;
+    margin: 15px 90px;
+    text-align: center;
+	cursor: pointer;
+	font-size: 18px;
+    padding: 25px 40px;
+	transition: all 0.2s ease 0s;
+}
+
+.button:link, .button:visited, .button:active {
+    color: #dcdcdc;
+}
+
+.button, .button:link, .button:visited {
+    text-decoration: none;
 }
 
 .button:hover {
-	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
-	background-color:#f6f6f6;
-}
-
-.button:active {
-	position:relative;
-	top:1px;
+    border: 2.5px solid #f66767;
+    color: #f66767;
+    background-color: #3c3d47;
+    transition: all 0.2s ease 0s;
 }
 
 .output {
-    border:1px solid #dcdcdc;
-    width: 700px;
-    height: 500px;
-	margin: 20px 0;
+    /* margin: 15px 20px; */
+    margin: 15px -30px;
+	padding: 1px 3px;
+    border: 2.5px solid #dcdcdc;
+	display: block;
+	overflow: auto;
+}
+
+a > i.back {
+    font-size: 100px;
+    color: #f66767;
+    position: absolute;
+    /* left: 50px; */
+    left: 3%;
+    top: 50px;
+    transition: 0.3s;
+    transform: translate(-3px, -18px);
+    padding: 0 32px;
+}
+
+a > i.back:hover {
+    transition: 0.3s;
+    color: #f6676780;
+	transform: translate(-7px, -18px);
 }
