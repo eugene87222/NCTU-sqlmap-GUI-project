@@ -13,4 +13,4 @@
 - [2019.10.23 更新日誌](https://github.com/eugene87222/NCTU-sqlmap-GUI-project/blob/master/20191023.md)
 - [2019.10.28 更新日誌](https://github.com/eugene87222/NCTU-sqlmap-GUI-project/blob/master/20191028.md)
 - [2019.11.13 更新日誌](https://github.com/eugene87222/NCTU-sqlmap-GUI-project/blob/master/20191113.md)
-- [2019.12.02 更新日誌 待補上](https://github.com/eugene87222/NCTU-sqlmap-GUI-project/blob/master/20191202.md)
+- [2019.12.02 更新日誌](https://github.com/eugene87222/NCTU-sqlmap-GUI-project/blob/master/20191202.md)
