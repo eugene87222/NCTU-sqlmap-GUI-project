@@ -3,7 +3,7 @@
 ## 開發環境
 - [Ubuntu 18.04 LTS](https://ubuntu.com/download/desktop)
 - [python 3.6.8](https://www.python.org/)
-  - `pip3 install connexion[swagger-ui] swagger-ui-bundle Flask`
+  - `pip3 install -r requirements.txt`
 
 ## 主要分工
 - GUI (HTML, JS, CSS): [Andy Wu](https://www.facebook.com/andy.wu.391420), [Rita Wu](https://www.facebook.com/RitaWu1998)
