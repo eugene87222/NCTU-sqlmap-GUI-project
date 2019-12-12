@@ -1,6 +1,11 @@
 from datetime import datetime
 from flask import make_response, abort
-import subprocess, re, time, json, platform, os
+import os
+import re
+import json
+import time
+import platform
+import subprocess
 
 COMMAND_RESULT = {}
 if 'Windows' in platform.platform():
@@ -53,10 +58,14 @@ def run(args):
                             stdout=subprocess.PIPE, 
                             shell=True, 
                             universal_newlines=True)
+    
+    ansi_regex = r'\x1B((\[\??\d+[hl])|(\[\d+(;\d+)*[a-z])|(\[[a-z])|(#[0-9])|([=<>FGABCDHIKJZ])|(/Z)|([\(\)][AB012]))'
+    ansi_escape = re.compile(ansi_regex, flags=re.IGNORECASE)
     while True:
         line = proc.stdout.readline()
         if line == '' and proc.poll() != None:
             break
+        line = ansi_escape.sub('', line)
         line = re.sub(r'\n', '<br/>', line)
         line = re.sub(r'\s', '&nbsp;', line)
         COMMAND_RESULT['output'] += line

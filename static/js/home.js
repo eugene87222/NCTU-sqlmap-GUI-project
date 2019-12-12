@@ -1,3 +1,6 @@
+import sections from './import/id.js'
+import tabnames from './import/tabname.js'
+
 let ns = {};
 
 ns.model = (function() {
@@ -95,96 +98,9 @@ ns.controller = (function(m, v) {
         "general", "miscellaneous"
     ];
     let section_length = section_title.length;
-    
-    let sections = {};
-
-    sections["target"] = [
-        "d", "u", "l", "x", "m", "r", "g", "c"
-    ];
-
-    sections["request"] = [
-        "method", "data", "param-del", "cookie", "cookie-del", "load-cookies", 
-        "drop-set-cookie-cb", "user-agent", "random-agent-cb", "host", "referer", 
-        "header", "headers", "auth-type", "auth-cred", "auth-file", "ignore-code", 
-        "ignore-proxy-cb", "ignore-redirects-cb", "ignore-timeouts-cb", "proxy", 
-        "proxy-cred", "proxy-file", "tor-cb", "tor-port", "tor-type", "check-tor-cb", 
-        "delay", "timeout", "retries", "randomize", "safe-url", "safe-post", 
-        "safe-req", "safe-freq", "skip-urlencode-cb", "csrf-token", "csrf-url", 
-        "force-ssl-cb", "hpp-cb", "eval"
-    ];
-    
-    sections["optimization"] = [
-        "o-cb", "predict-output-cb", "keep-alive-cb", "null-connection-cb", "threads"
-    ];
-
-    sections["injection"] = [
-        "p", "skip", "skip-static-cb", "param-exclude", "dbms", "dbms-cred", "os", 
-        "invalid-bignum-cb", "invalid-logical-cb", "invalid-string-cb", "no-cast-cb", 
-        "no-escape-cb", "prefix", "suffix", "tamper"
-    ];
-
-    sections["detection"] = [
-        "level", "risk", "string", "not-string", "regexp", "code", "text-only-cb", 
-        "titles-cb"
-    ];
-
-    sections["techniques"] = [
-        "technique", "time-sec", "union-cols", "union-char", "union-from", 
-        "dns-domain", "second-url", "second-req"
-    ];
-
-    sections["fingerprint"] = [
-        "fingerprint-cb"
-    ];
-    
-    sections["enumeration"] = [
-        "all-cb", "banner-cb", "current-user-cb", "current-db-cb", "hostname-cb", 
-        "is-dba-cb", "users-cb", "passwords-cb", "privileges-cb", "roles-cb", 
-        "dbs-cb", "tables-cb", "columns-cb", "schema-cb", "count-cb", "dump-cb", 
-        "dump-all-cb", "search-cb", "comments-cb", "D", "T", "C", "X", "U", 
-        "exclude-sysdbs-cb", "pivot-column", "where", "start", "stop", "first", 
-        "last", "sql-query", "sql-shell-cb", "sql-file"
-    ];
-
-    sections["brute-force"] = [
-        "common-tables-cb", "common-columns-cb"
-    ];
-
-    sections["user-defined-function-injection"] = [
-        "udf-inject-cb", "shared-lib"
-    ];
-
-    sections["file-system-access"] = [
-        "file-read", "file-write", "file-dest"
-    ];
-
-    sections["operating-system-access"] = [
-        "os-cmd", "os-shell-cb", "os-pwn-cb", "os-smbrelay-cb", "os-bof-cb", 
-        "priv-esc-cb", "msf-path", "tmp-path"
-    ];
-
-    sections["windows-registry-access"] = [
-        "reg-read-cb", "reg-add-cb", "reg-del-cb", "reg-key", "reg-value", 
-        "reg-data", "reg-type"
-    ];
-
-    sections["general"] = [
-        "s", "t", "batch-cb", "binary-fields", "check-internet-cb", "crawl", 
-        "crawl-exclude", "csv-del", "charset", "dump-format", "encoding", "eta-cb", 
-        "flush-session-cb", "forms-cb", "fresh-queries-cb", "har", "hex-cb", 
-        "output-dir", "parse-errors-cb", "preprocess", "repair-cb", "save", "scope", 
-        "test-filter", "test-skip", "update-cb"
-    ];
-        
-    sections["miscellaneous"] = [
-        "z", "alert", "answers", "beep-cb", "cleanup-cb", "dependencies-cb", 
-        "disable-coloring-cb", "gpage", "identify-waf-cb", "list-tampers-cb", 
-        "mobile-cb", "offline-cb", "purge-cb", "skip-waf-cb", "smart-cb", 
-        "sqlmap-shell-cb", "tmp-dir", "web-root", "wizard-cb"
-    ];
 
     function checkTarget() {
-        let targets = sections["target"];
+        let targets = sections[0];
         let target_length = targets.length;
         for(let i = 0; i < target_length; i++) {
             if($("#" + targets[i] + "-cb").is(":checked")) {
@@ -196,16 +112,34 @@ ns.controller = (function(m, v) {
         return false;
     }
 
+    function showAlert(msg) {
+        document.getElementById("alert-msg").innerHTML = msg;
+        document.getElementsByClassName("alert-window")[0].style.display = "block";
+        document.getElementsByClassName("curtain")[0].style.display = "block";
+    }
+
     var readInterval;
     
-    $("#attack").click(function(e) {
+    $("#save_output").click(function(e) {
+        e.preventDefault();
+        if($("#final_output").html().trim() != "The final output will be shown here."){
+            model.save();
+        }
+        else {
+            showAlert("Final output is empty. <br/> Please run command first.")
+        }
+    });
+
+    $("#run").click(function(e) {
         e.preventDefault();
         if(checkTarget()) {
             let args = {};
+            let msg = "";
             args["v"] = $("#verbosity").val();
             for(let i = 0; i < section_length; i++) {
-                let options = sections[section_title[i]];
+                let options = sections[i];
                 let arg = {};
+                let cnt = 0;
                 for(let j = 0; j < options.length; j++) {
                     if(options[j].slice(-3) == "-cb") {
                         arg[options[j].slice(0, -3)] = {};
@@ -215,21 +149,30 @@ ns.controller = (function(m, v) {
                         arg[options[j]] = {};
                         arg[options[j]]["check"] = $("#" + options[j] + "-cb").is(":checked");
                         arg[options[j]]["value"] = $("#" + options[j]).val();
+                        if(arg[options[j]]["check"] && arg[options[j]]["value"].length == 0) {
+                            cnt += 1;
+                        }
                     }
                 }
                 args[section_title[i]] = arg;
+                if(cnt > 0) {
+                    if(msg.length > 0) {
+                        msg += ", ";
+                    }
+                    msg += "<span>" + tabnames[i] + "</span>";
+                }
             }
-            model.run(args);
-            readInterval = setInterval(function() { model.read(); }, 250);
+            if(msg.length > 0) {
+                showAlert("Empty textbox found in tabs below<br/><br/>" + msg);
+            }
+            else {
+                model.run(args);
+                readInterval = setInterval(function() { model.read(); }, 250);
+            }
         }
         else {
-            alert("Target must be provided.");
+            showAlert("Target must be provided.");
         }
-    });
-
-    $("#save").click(function(e) {
-        e.preventDefault();
-        model.save();
     });
 
     $("#basic_help").click(function(e) {
@@ -250,6 +193,12 @@ ns.controller = (function(m, v) {
         });
     });
 
+    $("#update").click(function (e) {
+        model.info({
+            "type": "--update"
+        });
+    });
+
     $event_pump.on("model_read_success", function(e, data) {
         view.showResult(data);
     });
@@ -257,10 +206,17 @@ ns.controller = (function(m, v) {
     $event_pump.on("model_run_success", function(e, data) {
         clearInterval(readInterval);
         model.read();
+        console.log("Run command successfully");
     });
 
     $event_pump.on("model_info_success", function(e, data) {
         view.showInfo(data);
+        console.log("Get information successfully")
+    });
+
+    $event_pump.on("model_save_success", function(e, data) {
+        // view.showInfo(data);
+        showAlert("Save output successfully")
     });
 
     $event_pump.on("model_error", function(e, xhr, textStatus, errorThrown) {

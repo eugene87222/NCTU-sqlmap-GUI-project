@@ -9,33 +9,42 @@ body {
 
 h1 {
     font-family: 'Luckiest Guy', sans-serif;
-    font-size: 60px;
+    font-size: 55px;
     margin: 60px 0 0;
     color: #f66767;
 	letter-spacing: 5px;
 	text-align: center;
 }
 .box {
-	width: auto;
-	padding-top: 50px;
+    display: flex;
+    margin: 40px 150px 0;
 }
 
-.button_box, .output {
-  	width: 600px;
-  	height: 500px;
-  	float: left;
+
+.output {
+    margin-left: 50px;
+	padding: 1px 3px;
+    border: 2.5px solid #dcdcdc;
+	display: block;
+    overflow: auto;
+    font-size: 18px;
+    flex-grow: 1;
+    height: 70vh;
 }
 
 .button {
-	border: 2.5px solid #dcdcdc;
-	color: #dcdcdc;
-    display: block;
-	width: 300px;
-    margin: 15px 90px;
+    border: 2.5px solid #dcdcdc;
+    border-radius: 10px;
+    color: #dcdcdc;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 75px;
     text-align: center;
 	cursor: pointer;
 	font-size: 18px;
-    padding: 25px 40px;
 	transition: all 0.2s ease 0s;
 }
 
@@ -54,14 +63,7 @@ h1 {
     transition: all 0.2s ease 0s;
 }
 
-.output {
-    /* margin: 15px 20px; */
-    margin: 15px -30px;
-	padding: 1px 3px;
-    border: 2.5px solid #dcdcdc;
-	display: block;
-	overflow: auto;
-}
+
 
 a > i.back {
     font-size: 100px;

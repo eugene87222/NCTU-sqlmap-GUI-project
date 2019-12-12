@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>sqlmap GUI</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" type="text/css" href="static/css/command.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+</head>
+
+  <body>
+    <a href="/"><i class="fa fa-angle-left back"></i></a>
+    
+    <div class="main-and-right">
+      <div class="main-content">
+        <h1>Command setting</h1>
+        <hr />
+
+        <div class="tab">
+          <button class="tablinks active" onclick="openTab(event, 'Verbosity')">Verbosity</button>
+          <button class="tablinks" onclick="openTab(event, 'Target')">Target</button>
+          <button class="tablinks" onclick="openTab(event, 'Request')">Request</button>
+          <button class="tablinks" onclick="openTab(event, 'Optimization')">Optimization</button>
+          <button class="tablinks" onclick="openTab(event, 'Injection')">Injection</button>
+          <button class="tablinks" onclick="openTab(event, 'Detection')">Detection</button>
+          <button class="tablinks" onclick="openTab(event, 'Techniques')">Techniques</button>
+          <button class="tablinks" onclick="openTab(event, 'Fingerprint')">Fingerprint</button>
+          <button class="tablinks" onclick="openTab(event, 'Enumeration')">Enumeration</button>
+          <button class="tablinks" onclick="openTab(event, 'Brute-Force')">Brute Force</button>
+          <button class="tablinks" onclick="openTab(event, 'User-Defined-Function-Injection')">User-Defined Function
+              Injection</button>
+          <button class="tablinks" onclick="openTab(event, 'File-System-Access')">File System Access</button>
+          <button class="tablinks" onclick="openTab(event, 'Operating-System-Access')">Operating System Access</button>
+          <button class="tablinks" onclick="openTab(event, 'Windows-Registry-Access')">Windows Registry Access</button>
+          <button class="tablinks" onclick="openTab(event, 'General')">General</button>
+          <button class="tablinks" onclick="openTab(event, 'Miscellaneous')">Miscellaneous</button>
+        </div>
+
+        <section class="tabcontent Verbosity">
+          <h2>Choose your verbosity</h2>
+          <select id="verbosity" onchange="generateCmd()">
+            <option value="0">0</option>
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+        </section>
+
+        <div class="target-in"></div>
+
+        <script type="module" src="static/js/insert_options.js"></script>
+      </div>
+      
+      <div class="right-content">
+        <div class="wrapper">
+          <div class="search">
+            <p>Search related description</p>
+            <div>
+              <input type="text" onkeyup="search(this)"/>
+              <div id="search_result"></div>
+            </div>
+          </div>
+
+          <div class="final-command">
+            <p>Corresponding arguments</p>
+            <div id="final_cmd">final string</div>
+          </div>
+    
+          <div class="button-run" id="run">Run</div>
+          <div class="final-output">
+            <p>Output</p>
+            <div id="final_output">
+              The final output will be shown here.
+            </div>
+          </div>
+          <div class="button-save" id="save_output">Save the output</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="curtain"></div>
+
+    <div class="alert-window">
+      <div id="alert-area">
+        <span id="alert-msg"></span>
+      </div>
+      <button id="alert-button" onclick="clickOK()">OK</button>
+    </div>
+
+    <script>
+      function clickOK() {
+        document.getElementsByClassName("alert-window")[0].style.display = "none";
+        document.getElementsByClassName("curtain")[0].style.display = "none";
+      }
+
+      function search(e) {
+        var keyword = e.value.trim().toLowerCase();
+        var tab = document.getElementsByClassName("tablinks");
+        var sections = document.getElementsByClassName("tabcontent");
+        var arrows = document.getElementsByClassName("arrow");
+        var section_length = sections.length;
+        var options, cnt;
+        
+        if(keyword.length > 0) {
+          for(i = 0; i < section_length; i++) {
+            cnt = 0;
+            options = sections[i].getElementsByClassName("option")
+            for(j = 0; j < options.length; j++) {
+              if(options[j].children[2].textContent.toLowerCase().includes(keyword)) {
+                options[j].children[0].style.display = "inline-block";
+                cnt += 1;
+              }
+              else {
+                options[j].children[0].style.display = "none";
+              }
+            }
+            if(cnt > 0) {
+              if(!tab[i].className.includes("tablinks-highlight")) {
+                tab[i].className += " tablinks-highlight";
+              }
+            }
+            else {
+              tab[i].className = tab[i].className.replace(" tablinks-highlight", "");
+            }
+          }
+        }
+        else {
+          for(var i = 0; i < tab.length; i++) {
+            tab[i].className = tab[i].className.replace(" tablinks-highlight", "");
+          }
+          for(var i = 0; i < arrows.length; i++) {
+            arrows[i].style.display = "none";
+          }
+        }
+      }
+
+      function generateCmd() {
+        var request_tab = document.getElementsByClassName("tablinks")[2];
+        var sections = document.getElementsByClassName("tabcontent");
+        var section_length = sections.length;
+        var checkboxes, size;
+        var input_text, option, text;
+        var cmd = "";
+        
+        cmd += " -v " + document.getElementById("verbosity").value;
+        for(i = 1; i < section_length; i++) {
+          checkboxes = sections[i].getElementsByClassName("checkbox");
+          size = checkboxes.length;
+          if(i == 2 && request_tab.disabled) {
+            continue;
+          }
+          for(j = 0; j < size; j++) {
+            if(checkboxes[j].checked == true) {
+              input_text = checkboxes[j].nextElementSibling.nextElementSibling;
+              option = checkboxes[j].id.slice(0, -3);
+              if(option.length == 1) {
+                cmd += " -" + option;
+              }
+              else {
+                cmd += " --" + option;
+              }
+              if(input_text != null) {
+                text = input_text.children[0].value;
+                if(option.length == 1) {
+                  cmd += " \"" + text + "\"";
+                }
+                else {
+                  cmd += "=\"" + text + "\"";
+                }
+              }
+            }
+          }
+        }
+        document.getElementById("final_cmd").textContent = cmd;
+      }
+
+      function showInput(e) {
+        var input_text = e.nextElementSibling.nextElementSibling;
+
+        if(e.checked == true) {
+          input_text.style.display = "block";
+          input_text.children[0].focus();
+        }
+        else {
+          input_text.style.display = "none";
+          input_text.children[1].style.display = "none";
+        }
+      }
+
+      function checkRequired(e) {
+        if(e.value == "") {
+          e.nextElementSibling.style.display = "inline-block";
+        }
+        else {
+          e.nextElementSibling.style.display = "none";
+        }
+      }
+
+      function openTab(evt, TabName) {
+        var i, tabcontent, tablinks;
+        
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for(i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for(i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementsByClassName(TabName)[0].style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+
+      function checkTab() {
+        if(document.getElementById("u-cb").checked) {
+            document.getElementsByClassName("tablinks")[2].disabled = false;
+        }
+        else {
+            document.getElementsByClassName("tablinks")[2].disabled = true;
+        }
+      }
+
+      generateCmd();
+
+    </script>
+  </body>
+  <script type="module" src="static/js/home.js"></script>
+
+</html>

@@ -13,9 +13,9 @@ def home():
 def info():
     return render_template('info.html')
 
-@app.route('/attack')
+@app.route('/command')
 def attack():
-    return render_template('attack.html')
+    return render_template('command.html')
 
 @app.route('/favicon.ico')
 def favicon():

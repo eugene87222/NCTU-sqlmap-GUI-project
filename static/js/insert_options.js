@@ -1,7 +1,7 @@
 import description_list_list from './import/description.js'
 import heading_list from './import/heading.js'
 import id_list_list from './import/id.js'
-import tabname_list from "./import/tabname.js";
+import tabname_list from "./import/tabclass.js";
 
 
 for(var i = 0; i < id_list_list.length; i++) {
@@ -9,13 +9,15 @@ for(var i = 0; i < id_list_list.length; i++) {
     var description_list = description_list_list[i];
     var options_str = "";
 
-    for(var j=0; j<id_list.length; j++){
+    for(var j = 0; j < id_list.length; j++) {
         var option_str;
         var need_input = !(id_list[j].includes("-cb"));
 
-        if(need_input){
+        if(need_input) {
             option_str = `
             <div class="option">
+                <span class="arrow">>></span>
+
                 <input class="checkbox show-input" type="checkbox" onclick="showInput(this);generateCmd();" id="${id_list[j]}-cb" />
 
                 <label class="option-text" for="${id_list[j]}-cb">
@@ -33,6 +35,8 @@ for(var i = 0; i < id_list_list.length; i++) {
         else {
             option_str = `
             <div class="option">
+                <span class="arrow">>></span>
+
                 <input class="checkbox" type="checkbox" onclick="generateCmd()" id="${id_list[j]}" />
 
                 <label class="option-text" for="${id_list[j]}">

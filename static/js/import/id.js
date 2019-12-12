@@ -37,7 +37,7 @@ var id = [
     "dbs-cb", "tables-cb", "columns-cb", "schema-cb", "count-cb", "dump-cb", 
     "dump-all-cb", "search-cb", "comments-cb", "D", "T", "C", "X", "U", 
     "exclude-sysdbs-cb", "pivot-column", "where", "start", "stop", "first", 
-    "last", "sql-query", "sql-shell-cb", "sql-file"],
+    "last", "sql-query", "sql-file"],
 
     //brute-force
     ["common-tables-cb", "common-columns-cb"],
@@ -49,7 +49,7 @@ var id = [
     ["file-read", "file-write", "file-dest"],
 
     //operating-system-access
-    ["os-cmd", "os-shell-cb", "os-pwn-cb", "os-smbrelay-cb", "os-bof-cb", 
+    ["os-cmd", "os-pwn-cb", "os-smbrelay-cb", "os-bof-cb", 
     "priv-esc-cb", "msf-path", "tmp-path"],
 
     //windows-registry-access
@@ -62,13 +62,13 @@ var id = [
     "crawl-exclude", "csv-del", "charset", "dump-format", "encoding", "eta-cb", 
     "flush-session-cb", "forms-cb", "fresh-queries-cb", "har", "hex-cb", 
     "output-dir", "parse-errors-cb", "preprocess", "repair-cb", "save", "scope", 
-    "test-filter", "test-skip", "update-cb"],
+    "test-filter", "test-skip"],
 
     //miscellaneous
     ["z", "alert", "answers", "beep-cb", "cleanup-cb", "dependencies-cb", 
     "disable-coloring-cb", "gpage", "identify-waf-cb", "list-tampers-cb", 
     "mobile-cb", "offline-cb", "purge-cb", "skip-waf-cb", "smart-cb", 
-    "sqlmap-shell-cb", "tmp-dir", "web-root", "wizard-cb"]
+    "tmp-dir", "web-root"]
 ]
 
 export default id;

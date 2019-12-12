@@ -123,7 +123,6 @@ var description = [
     'First query output word character to retrieve',
     'Last query output word character to retrieve',
     'SQL statement to be executed',
-    'Prompt for an interactive SQL shell',
     'Execute SQL statements from given file(s)'],
 
     ['Check existence of common tables',
@@ -137,7 +136,6 @@ var description = [
     'Back-end DBMS absolute filepath to write to'],
 
     ['Execute an operating system command',
-    'Prompt for an interactive operating system shell',
     'Prompt for an OOB shell, Meterpreter or VNC',
     'One click prompt for an OOB shell, Meterpreter or VNC',
     'Stored procedure buffer overflow exploitation',
@@ -177,8 +175,7 @@ var description = [
     'Save options to a configuration INI file',
     'Regexp to filter targets from provided proxy log',
     'Select tests by payloads and/or titles (e.g. ROW)',
-    'Skip tests by payloads and/or titles (e.g. BENCHMARK)',
-    'Update sqlmap'],
+    'Skip tests by payloads and/or titles (e.g. BENCHMARK)'],
 
     ['Use short mnemonics (e.g. "flu,bat,ban,tec=EU")',
     'Run host OS command(s) when SQL injection is found',
@@ -195,10 +192,8 @@ var description = [
     'Safely remove all content from sqlmap data directory',
     'Skip heuristic detection of WAF/IPS protection',
     'Conduct thorough tests only if positive heuristic(s)',
-    'Prompt for an interactive sqlmap shell',
     'Local directory for storing temporary files',
-    'Web server document root directory (e.g. "/var/www")',
-    'Simple wizard interface for beginner users']
+    'Web server document root directory (e.g. "/var/www")']
 ];
 
 export default description;

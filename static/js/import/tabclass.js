@@ -8,10 +8,10 @@ var tabname = [
     "Fingerprint",
     "Enumeration",
     "Brute-Force",
-    "User-Defined Function Injection",
-    "File System Access",
-    "Operating System Access",
-    "Windows Registry Access",
+    "User-Defined-Function-Injection",
+    "File-System-Access",
+    "Operating-System-Access",
+    "Windows-Registry-Access",
     "General",
     "Miscellaneous"
 ];
