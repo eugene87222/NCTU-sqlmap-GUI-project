@@ -5,6 +5,8 @@
 - [Python 3.6.8](https://www.python.org/)
 - Python packages
     - `pip3 install -r requirements.txt`
+- [sqlmap](https://github.com/sqlmapproject)
+    - We recommended that the users download sqlmap with `git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap`.
 
 ## Assignment of responsibility
 - GUI (HTML, JS, CSS): [Andy Wu](https://www.facebook.com/andy.wu.391420), [Rita Wu](https://www.facebook.com/RitaWu1998)
