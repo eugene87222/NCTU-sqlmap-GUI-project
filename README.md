@@ -8,6 +8,18 @@
 - [sqlmap](https://github.com/sqlmapproject)
     - We recommended that the users download sqlmap with `git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap`.
 
+## Installation
+
+```bash
+mkdir sqlmap-gui
+cd sqlmap-gui
+git clone --depth 1 https://github.com/eugene87222/NCTU-sqlmap-GUI-project.git gui
+git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap
+cd gui
+python3 server.py
+```
+Go to `localhost:5000` then enjoy the clean sqlmap GUI.
+
 ## Assignment of responsibility
 - GUI (HTML, JS, CSS): [Andy Wu](https://www.facebook.com/andy.wu.391420), [Rita Wu](https://www.facebook.com/RitaWu1998)
 - RESTful API (Python): [Eugene Yang](https://github.com/eugene87222)
