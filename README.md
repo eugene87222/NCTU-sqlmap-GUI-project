@@ -13,7 +13,7 @@
 ```bash
 mkdir sqlmap-gui
 cd sqlmap-gui
-git clone --depth 1 https://github.com/eugene87222/NCTU-sqlmap-GUI-project.git gui
+git clone https://github.com/eugene87222/NCTU-sqlmap-GUI-project.git gui
 git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap
 cd gui
 python3 server.py
