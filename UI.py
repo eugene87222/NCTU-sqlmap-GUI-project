@@ -82,6 +82,10 @@ def info(args):
         result = re.findall(r'(.+)Press Enter to continue', result, re.S)[0].strip()
     except:
         pass
+
+    ansi_regex = r'\x1B((\[\??\d+[hl])|(\[\d+(;\d+)*[a-z])|(\[[a-z])|(#[0-9])|([=<>FGABCDHIKJZ])|(/Z)|([\(\)][AB012]))'
+    ansi_escape = re.compile(ansi_regex, flags=re.IGNORECASE)
+    result = ansi_escape.sub('', result)
     result = re.sub(r'\n', '<br/>', result)
     result = re.sub(r'\s', '&nbsp;', result)
     return result
