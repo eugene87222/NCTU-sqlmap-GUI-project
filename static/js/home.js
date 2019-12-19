@@ -166,6 +166,18 @@ ns.controller = (function(m, v) {
                 showAlert("Empty textbox found in tabs below<br/><br/>" + msg);
             }
             else {
+                // var file = document.getElementById("m").files[0];
+                // if (file) {
+                //     var reader = new FileReader();
+                //     reader.readAsText(file, "UTF-8");
+                //     reader.onload = function (evt) {
+                //         console.log(evt.target.result);
+                        
+                //     }
+                //     reader.onerror = function (evt) {
+                //         console.log("error reading file");
+                //     }
+                // }
                 model.run(args);
                 readInterval = setInterval(function() { model.read(); }, 250);
             }
@@ -201,6 +213,7 @@ ns.controller = (function(m, v) {
 
     $event_pump.on("model_read_success", function(e, data) {
         view.showResult(data);
+        console.log("Read successfully");
     });
 
     $event_pump.on("model_run_success", function(e, data) {
@@ -211,12 +224,12 @@ ns.controller = (function(m, v) {
 
     $event_pump.on("model_info_success", function(e, data) {
         view.showInfo(data);
-        console.log("Get information successfully")
+        console.log("Get information successfully");
     });
 
     $event_pump.on("model_save_success", function(e, data) {
-        // view.showInfo(data);
-        showAlert("Save output successfully")
+        showAlert("Save output successfully");
+        console.log("Save output successfully");
     });
 
     $event_pump.on("model_error", function(e, xhr, textStatus, errorThrown) {

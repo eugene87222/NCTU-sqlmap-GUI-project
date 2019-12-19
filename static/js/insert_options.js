@@ -3,7 +3,6 @@ import heading_list from './import/heading.js'
 import id_list_list from './import/id.js'
 import tabname_list from "./import/tabclass.js";
 
-
 for(var i = 0; i < id_list_list.length; i++) {
     var id_list = id_list_list[i];
     var description_list = description_list_list[i];
@@ -57,6 +56,7 @@ for(var i = 0; i < id_list_list.length; i++) {
     var target_out = document.getElementsByClassName("main-content")[0];
     var target_in = target_out.getElementsByClassName("target-in")[0];
     target_out.insertBefore(createNode(section), target_in);
+
 }
 
 document.getElementById("u-cb").setAttribute("onclick", "showInput(this);checkTab();generateCmd();");

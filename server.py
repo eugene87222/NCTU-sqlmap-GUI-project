@@ -1,6 +1,9 @@
 import sys, argparse, threading, webbrowser, os
 from flask import Flask, render_template, send_from_directory
 import connexion
+import mimetypes
+
+mimetypes.add_type('text/javascript', '.js')
 
 app = connexion.App(__name__, specification_dir='./')
 app.add_api('swagger.yml')

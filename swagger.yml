@@ -26,6 +26,15 @@ definitions:
         type: boolean
       value:
         type: string
+  FileParameter:
+    type: object
+    properties:
+      check:
+        type: boolean
+      filename:
+        type: string
+      filecontent:
+        type: string
 
 paths:
   /UI/read:
